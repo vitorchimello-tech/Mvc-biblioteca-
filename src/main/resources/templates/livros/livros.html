@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Livros</title>
+</head>
+<body>
+<h1>Livros</h1>
+<nav>
+    <a th:href="@{/}">Início</a> |
+    <a th:href="@{/livros}">Livros</a> |
+    <a th:href="@{/autores}">Autores</a> |
+    <a th:href="@{/categorias}">Categorias</a> |
+    <a th:href="@{/usuarios}">Usuários</a> |
+    <a th:href="@{/emprestimos}">Empréstimos</a>
+</nav>
+<table border="1">
+    <tr><th>Título</th><th>Autor</th><th>ISBN</th><th>Categoria</th><th>Disponível</th></tr>
+    <tr th:each="livro : ${livros}">
+        <td th:text="${livro.titulo}"></td>
+        <td th:text="${livro.autor.nome}"></td>
+        <td th:text="${livro.isbn}"></td>
+        <td th:text="${livro.categoria.nome}"></td>
+        <td th:text="${livro.disponivel} ? 'Sim' : 'Não'"></td>
+    </tr>
+</table>
+</body>
+</html>

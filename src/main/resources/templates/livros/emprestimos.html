@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Empréstimos</title>
+</head>
+<body>
+<h1>Empréstimos</h1>
+<nav>
+    <a th:href="@{/}">Início</a> |
+    <a th:href="@{/livros}">Livros</a> |
+    <a th:href="@{/autores}">Autores</a> |
+    <a th:href="@{/categorias}">Categorias</a> |
+    <a th:href="@{/usuarios}">Usuários</a> |
+    <a th:href="@{/emprestimos}">Empréstimos</a>
+</nav>
+<table border="1">
+    <tr><th>Livro</th><th>Usuário</th><th>Retirada</th><th>Devolução</th></tr>
+    <tr th:each="emprestimo : ${emprestimos}">
+        <td th:text="${emprestimo.livro.titulo}"></td>
+        <td th:text="${emprestimo.usuario.nome}"></td>
+        <td th:text="${#temporals.format(emprestimo.dataRetirada, 'dd/MM/yyyy')}"></td>
+        <td th:text="${emprestimo.devolvido} ? ${#temporals.format(emprestimo.dataDevolucao, 'dd/MM/yyyy')} : 'Pendente'"></td>
+    </tr>
+</table>
+</body>
+</html>
