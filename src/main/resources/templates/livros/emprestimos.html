@@ -19,8 +19,8 @@
     <tr th:each="emprestimo : ${emprestimos}">
         <td th:text="${emprestimo.livro.titulo}"></td>
         <td th:text="${emprestimo.usuario.nome}"></td>
-        <td th:text="${#temporals.format(emprestimo.dataRetirada, 'dd/MM/yyyy')}"></td>
-        <td th:text="${emprestimo.devolvido} ? ${#temporals.format(emprestimo.dataDevolucao, 'dd/MM/yyyy')} : 'Pendente'"></td>
+        <td th:text="${emprestimo.dataRetirada}"></td>
+        <td th:text="${emprestimo.dataDevolucao != null} ? ${emprestimo.dataDevolucao} : 'Pendente'"></td>
     </tr>
 </table>
 </body>

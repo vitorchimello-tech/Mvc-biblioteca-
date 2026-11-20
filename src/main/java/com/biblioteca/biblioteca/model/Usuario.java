@@ -2,7 +2,6 @@ package com.biblioteca.biblioteca.model;
 
 public class Usuario {
 
-    private Long id;
     private String nome;
     private String matricula;
     private String email;
@@ -10,19 +9,10 @@ public class Usuario {
     public Usuario() {
     }
 
-    public Usuario(Long id, String nome, String matricula, String email) {
-        this.id = id;
+    public Usuario(String nome, String matricula, String email) {
         this.nome = nome;
         this.matricula = matricula;
         this.email = email;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNome() {

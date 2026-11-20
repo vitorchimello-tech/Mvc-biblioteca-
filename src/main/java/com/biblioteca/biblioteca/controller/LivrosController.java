@@ -8,19 +8,62 @@ import com.biblioteca.biblioteca.model.Usuario;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
+import java.util.ArrayList;
 
 @Controller
 public class LivrosController {
 
-    private final Autor autor = new Autor(1L, "Machado de Assis", "Brasileira");
-    private final Categoria categoria = new Categoria(1L, "Romance", "Literatura brasileira");
-    private final Livro livro = new Livro(1L, "Dom Casmurro", autor, "978-85-00-00000-0", categoria);
-    private final Usuario usuario = new Usuario(1L, "Grande Homem", "2026001", "Grande.Homem@email.com");
+    private ArrayList<Livro> livros = new ArrayList<>();
+    private ArrayList<Autor> autores = new ArrayList<>();
+    private ArrayList<Categoria> categorias = new ArrayList<>();
+    private ArrayList<Usuario> usuarios = new ArrayList<>();
+    private ArrayList<Emprestimo> emprestimos = new ArrayList<>();
+    private int proximoId = 1;
 
     public LivrosController() {
-        autor.adicionarObra(livro);
+        Autor machado = new Autor("Machado de Assis", "Brasileira");
+        Categoria romance = new Categoria("Romance", "Literatura brasileira");
+        autores.add(machado);
+        categorias.add(romance);
+
+        adicionarLivro("Dom Casmurro", machado, "978-85-00-00000-0", romance);
+        adicionarLivro("Pequeno Gafanhoto", machado, "978-85-00-00001-7", romance);
+
+        Usuario usuario = new Usuario("Grande Homem", "2026001", "Grande.Homem@email.com");
+        usuarios.add(usuario);
+        emprestimos.add(new Emprestimo(livros.get(1), usuario, "20/11/2026"));
+    }
+
+    private void adicionarLivro(String titulo, Autor autor, String isbn, Categoria categoria) {
+        Livro livro = new Livro(proximoId, titulo, autor, isbn, categoria);
+        proximoId++;
+        livros.add(livro);
+        autor.getObras().add(livro);
+    }
+
+    private Autor buscarAutor(String nome) {
+        for (Autor a : autores) {
+            if (a.getNome().equalsIgnoreCase(nome)) {
+                return a;
+            }
+        }
+        Autor novo = new Autor(nome, "");
+        autores.add(novo);
+        return novo;
+    }
+
+    private Categoria buscarCategoria(String nome) {
+        for (Categoria c : categorias) {
+            if (c.getNome().equalsIgnoreCase(nome)) {
+                return c;
+            }
+        }
+        Categoria nova = new Categoria(nome, "");
+        categorias.add(nova);
+        return nova;
     }
 
     @GetMapping("/")
@@ -30,33 +73,51 @@ public class LivrosController {
 
     @GetMapping("/livros")
     public String exibirLivros(Model model) {
-        model.addAttribute("livros", List.of(livro));
+        model.addAttribute("livros", livros);
         return "livros/livros";
+    }
+
+    @PostMapping("/livros/adicionar")
+    public String salvarLivro(@RequestParam String titulo, @RequestParam String autor,
+                              @RequestParam String isbn, @RequestParam String categoria) {
+        adicionarLivro(titulo, buscarAutor(autor), isbn, buscarCategoria(categoria));
+        return "redirect:/livros";
+    }
+
+    @PostMapping("/livros/remover")
+    public String removerLivro(@RequestParam int id) {
+        for (int i = 0; i < livros.size(); i++) {
+            Livro livro = livros.get(i);
+            if (livro.getId() == id) {
+                livro.getAutor().getObras().remove(livro);
+                livros.remove(i);
+                break;
+            }
+        }
+        return "redirect:/livros";
     }
 
     @GetMapping("/autores")
     public String exibirAutores(Model model) {
-        model.addAttribute("autores", List.of(autor));
+        model.addAttribute("autores", autores);
         return "livros/autores";
     }
 
     @GetMapping("/categorias")
     public String exibirCategorias(Model model) {
-        model.addAttribute("categorias", List.of(categoria));
+        model.addAttribute("categorias", categorias);
         return "livros/categorias";
     }
 
     @GetMapping("/usuarios")
     public String exibirUsuarios(Model model) {
-        model.addAttribute("usuarios", List.of(usuario));
+        model.addAttribute("usuarios", usuarios);
         return "livros/usuarios";
     }
 
     @GetMapping("/emprestimos")
     public String exibirEmprestimos(Model model) {
-        Emprestimo emprestimo = new Emprestimo(1L, new Livro(2L, "Pequeno Gafanhoto", autor, "978-85-00-00001-7", categoria), usuario);
-        emprestimo.registrarRetirada();
-        model.addAttribute("emprestimos", List.of(emprestimo));
+        model.addAttribute("emprestimos", emprestimos);
         return "livros/emprestimos";
     }
 }

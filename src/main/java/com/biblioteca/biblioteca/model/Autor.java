@@ -1,30 +1,19 @@
 package com.biblioteca.biblioteca.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Autor {
 
-    private Long id;
     private String nome;
     private String nacionalidade;
-    private List<Livro> obrasPublicadas = new ArrayList<>();
+    private ArrayList<Livro> obras = new ArrayList<>();
 
     public Autor() {
     }
 
-    public Autor(Long id, String nome, String nacionalidade) {
-        this.id = id;
+    public Autor(String nome, String nacionalidade) {
         this.nome = nome;
         this.nacionalidade = nacionalidade;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getNome() {
@@ -43,15 +32,11 @@ public class Autor {
         this.nacionalidade = nacionalidade;
     }
 
-    public List<Livro> getObrasPublicadas() {
-        return obrasPublicadas;
+    public ArrayList<Livro> getObras() {
+        return obras;
     }
 
-    public void setObrasPublicadas(List<Livro> obrasPublicadas) {
-        this.obrasPublicadas = obrasPublicadas;
-    }
-
-    public void adicionarObra(Livro livro) {
-        obrasPublicadas.add(livro);
+    public void setObras(ArrayList<Livro> obras) {
+        this.obras = obras;
     }
 }

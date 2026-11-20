@@ -2,7 +2,7 @@ package com.biblioteca.biblioteca.model;
 
 public class Livro {
 
-    private Long id;
+    private int id;
     private String titulo;
     private Autor autor;
     private String isbn;
@@ -12,20 +12,19 @@ public class Livro {
     public Livro() {
     }
 
-    public Livro(Long id, String titulo, Autor autor, String isbn, Categoria categoria) {
+    public Livro(int id, String titulo, Autor autor, String isbn, Categoria categoria) {
         this.id = id;
         this.titulo = titulo;
         this.autor = autor;
         this.isbn = isbn;
         this.categoria = categoria;
-        this.disponivel = true;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

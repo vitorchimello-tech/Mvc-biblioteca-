@@ -14,15 +14,33 @@
     <a th:href="@{/usuarios}">Usuários</a> |
     <a th:href="@{/emprestimos}">Empréstimos</a>
 </nav>
+
+<h2>Cadastrar livro</h2>
+<form th:action="@{/livros/adicionar}" method="post">
+    Título: <input type="text" name="titulo" required><br>
+    Autor: <input type="text" name="autor" required><br>
+    ISBN: <input type="text" name="isbn" required><br>
+    Categoria: <input type="text" name="categoria" required><br>
+    <button type="submit">Adicionar</button>
+</form>
+
+<h2>Lista de livros</h2>
 <table border="1">
-    <tr><th>Título</th><th>Autor</th><th>ISBN</th><th>Categoria</th><th>Disponível</th></tr>
+    <tr><th>Título</th><th>Autor</th><th>ISBN</th><th>Categoria</th><th>Disponível</th><th></th></tr>
     <tr th:each="livro : ${livros}">
         <td th:text="${livro.titulo}"></td>
         <td th:text="${livro.autor.nome}"></td>
         <td th:text="${livro.isbn}"></td>
         <td th:text="${livro.categoria.nome}"></td>
         <td th:text="${livro.disponivel} ? 'Sim' : 'Não'"></td>
+        <td>
+            <form th:action="@{/livros/remover}" method="post">
+                <input type="hidden" name="id" th:value="${livro.id}">
+                <button type="submit">Remover</button>
+            </form>
+        </td>
     </tr>
 </table>
+<p th:if="${livros.isEmpty()}">Nenhum livro cadastrado.</p>
 </body>
 </html>

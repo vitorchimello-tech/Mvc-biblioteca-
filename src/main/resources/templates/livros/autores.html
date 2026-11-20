@@ -19,7 +19,7 @@
     <tr th:each="autor : ${autores}">
         <td th:text="${autor.nome}"></td>
         <td th:text="${autor.nacionalidade}"></td>
-        <td><span th:each="obra : ${autor.obrasPublicadas}" th:text="${obra.titulo} + ' '"></span></td>
+        <td><span th:each="obra : ${autor.obras}" th:text="${obra.titulo} + ' '"></span></td>
     </tr>
 </table>
 </body>
